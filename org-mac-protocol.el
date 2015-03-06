@@ -1,4 +1,4 @@
-;;; org-mac-protocol.el -- process events triggered by the
+;;; org-mac-protocol.el --- process events triggered by the
 ;;; org-mac-protocol suite of AppleScripts
 
 ;; Copyright (C) 2009, 2010 Christopher Suckling
@@ -47,6 +47,8 @@
 ;;; Define org-mode hyperlink types
 ;;
 ;; BibDesk
+
+;;; Code:
 
 (org-add-link-type "bibdesk" 'org-mac-bibdesk-open)
 
@@ -122,7 +124,7 @@ manually"
   (let* ((sheet (when (string-match "::\\(.+\\)::\\(.+\\)::\\(.+\\)\\'" uri)
 		  (match-string 1 uri)))
 	 (table (when (string-match "::\\(.+\\)::\\(.+\\)::\\(.+\\)\\'" uri)
-		  (org-protocol-unhex-string (match-string 2 uri))))
+		  (org-link-unescape (match-string 2 uri))))
 	 (range (when (string-match "::\\(.+\\)::\\(.+\\)::\\(.+\\)\\'" uri)
 		  (match-string 3 uri)))
 	 (document (substring uri 0 (match-beginning 0))))
@@ -341,8 +343,8 @@ link property"
 
   (let* ((elements (org-protocol-split-data data nil ":"))
 	 (info (car elements))
-	 (app (org-protocol-unhex-string (cadr elements)))
-	 (parts (org-protocol-split-data info t))
+	 (app (org-link-unescape (cadr elements)))
+	 (parts (org-link-unescape info))
 	 (template (or (and (= 1 (length (car parts))) (pop parts))
 		       org-protocol-default-template-key))
 	 (url (org-protocol-sanitize-uri (car parts)))
@@ -406,3 +408,4 @@ front Safari window"
 
 
 (provide 'org-mac-protocol)
+;;; org-mac-protocol.el ends here
