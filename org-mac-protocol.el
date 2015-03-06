@@ -40,7 +40,7 @@
 ;; Portions of this code are developed from a blog post by Jack Moffitt:
 ;; http://metajack.im/2008/12/30/gtd-capture-with-emacs-orgmode/
 
-(require 'cl)
+(require 'cl-lib)
 (require 'org-protocol)
 (require 'org-bibtex)
 
@@ -351,8 +351,8 @@ link property"
 	 (type (if (string-match "^\\([a-z]+\\):" url)
 		   (match-string 1 url)))
 	 (title (or (cadr parts) ""))
-	 (shorttitle (or (caddr parts) ""))
-	 (region (or (cadddr parts) ""))
+	 (shorttitle (or (cl-caddr parts) ""))
+	 (region (or (cl-cadddr parts) ""))
 	 (orglink (org-make-link-string
 		   url (if (string-match "[^[:space:]]" title) title url)))
 	 (org-capture-link-is-already-stored t)
